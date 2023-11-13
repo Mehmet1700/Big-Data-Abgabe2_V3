@@ -7,92 +7,72 @@ const mysqlConfig = {
   host: "mysql_server",
   user: "wi22254",
   password: "passwort",
-  database: "meineDatenbank"
+  database: "meineDatenbank",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 }
+
+//Variable mit datatype boolean false, welche den Verbindungsstatus zum mysql Server angibt
+let connected = false;
 
 //let con = null
 
 const app = express()
 const port = 3000
 
-/*
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', function (req, res) {
-  res.send('hello world')
-})
-*/
 
-const con = mysql.createConnection(mysqlConfig);
-con.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the database:', err);
-    return;
-  }
-  console.log("Connected to MySQL server");
-  connect.query('SELECT * FROM meineDatenbank.names', (err, result) => {
+
+//Eine Schleife welche jede 5 Sekunde prüft ob eine Verbindung zum mysql Server besteht
+function delayConnection() {
+  const pool = mysql.createPool(mysqlConfig);
+  pool.getConnection((err, connection) => {
     if (err) {
-      console.error('Error inserting into the database:', err);
+      console.error('MYSQL Server ist noch am hochfahren', err);
       return;
     }
-    console.log(result);
-  }
-  );
-}
-);
-
-// Funktion welche den Pfad für die statischen Dateien festlegt
-app.use(express.static(path.join(__dirname, '')));
-// Funktion welche das routing für die index.html festlegt
-app.get('/', (req, res) => {
-    //Antwort mit der index.html Datei
-    res.sendFile(path.join(__dirname, 'index.html'));
-  });
-
-
-app.use(bodyParser.urlencoded({ extended: false }));
-
-
-
-
-
-/*
-app.get('/connect', function (req, res) {
-  con =  mysql.createConnection(mysqlConfig);
-  con.connect(function(err) {
-    if (err) {
-      console.error('Error inserting into the database:', err);
-      return;
-    }
-    res.send('connected')
+    connected = true;
     console.log("Connected to MySQL server");
-    connect.query('SELECT * FROM meineDatenbank.names', (err, result) => {
+    connection.release();  
+    //abort the function delayConnection
+    return;
+  });
+  //Wenn keine Verbindung besteht wird die Funktion nach einer Sekunde erneut aufgerufen
+  if (!connected) {
+    setTimeout(delayConnection, 5000);
+  }
+}
+
+//Ausführen der Funktion delayConnection
+delayConnection();
+
+// Funktion welche die Daten aus dem Formular entgegen nimmt und in die Datenbank schreibt
+app.post('/submit', (req, res) => {
+  const { name } = req.body;
+  const pool = mysql.createPool(mysqlConfig);
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error inserting into the database:', err);
+      return;
+    }
+    pool.query('INSERT INTO meineDatenbank.names (name) VALUES (?)', [name], (err, result) => {
       if (err) {
         console.error('Error inserting into the database:', err);
         return;
       }
-      console.log(result);
-    }
-    );
-})
-})
-*/
-
-// Funktion welches sich um das einfügen der Daten in die Datenbank kümmert, beim submitten der Eingabe
-app.post('/submit', function (req, res) {
-    // Funktion welche die Daten aus dem Formular entgegen nimmt
-    const { name } = req.body;
-    //Funktion welche die Daten in die Datenbank einfügt
-    con.query('INSERT INTO meineDatenbank.names (name) VALUES (?)', [name], (err, result) => {
-        if (err) {
-          console.error('Error inserting into the database:', err);
-          return;
-        }
-        // Nach erfolgreichem einfügen wird zurück auf die index.html geleitet
-        res.redirect('/');
-        });
+      res.send('Inserted into the database');
+      console.log('Inserted into the database');
+      connection.release();
+    });
+  });
 });
 
 
+app.get('/', (req, res) => {
+  app.use(express.static(path.join(__dirname, '')));
+  app.use(bodyParser.urlencoded({ extended: true }));
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 
 app.listen(port, () => {
