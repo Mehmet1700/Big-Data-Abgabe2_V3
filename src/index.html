@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Simple Database Web Application</title>
+    </head>
+    <body>
+        <!-- einfaches Formular zum eintragen von Daten in die Datenbank -->
+        <h1> Form for Database</h1>
+        <form action="/submit" method="post">
+            <label for="name">Name: </label>
+            <input type="text" name="name" id="name" placeholder="Enter your name">
+            <button type="submit">submit</button>
+        </form>
+
+        <h1> Database Entries</h1>
+
+        <!-- hier wird der Inhalt der Datenbank angezeigt -->
+        <ul>
+            <% data.forEach(item => { %>
+                <li><%= item.name %> </li>
+            <% }); %>
+
+    </body>
+</html>

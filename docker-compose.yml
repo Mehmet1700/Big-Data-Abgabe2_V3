@@ -17,3 +17,8 @@ services:
       - MYSQL_USER=wi22254
       - MYSQL_PASSWORD=passwort
       - MYSQL_ROOT_PASSWORD=admin
+    ports:
+      - 3306:3306
+    volumes:
+      - /var/lib/wi22254
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
