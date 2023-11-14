@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const mysqlConfig = {
   //Muss zu mysql_server angepasst werden beim dockerizen
-  host: "localhost",
+  host: "mysql_server",
   user: "wi22254",
   password: "passwort",
   database: "meineDatenbank",
