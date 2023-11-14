@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
         <meta charset="UTF-8">
         <title>Simple Database Web Application</title>
-    </head>
-    <body>
-        <!-- einfaches Formular zum eintragen von Daten in die Datenbank -->
+</head>
+<body>
+    <main>
+        <!-- einfaches Formular zum eintragen von Daten in die Datenbank         -->
+
         <h1> Form for Database</h1>
-        <form action="/submit" method="post">
-            <label for="name">Name: </label>
-            <input type="text" name="name" id="name" placeholder="Enter your name">
-            <button type="submit">submit</button>
-        </form>
+        <label>Name:</label>
+        <input type="text" id="name-input">
+        <button id="add-name-btn">Add Name</button>
+        
 
         <h1> Database Entries</h1>
+        <table id="table">
+            <thead>
+                <th>ID</th>
+                <th>Name</th>
+            </thead>
+            <tbody></tbody>
+        </table>
 
-        <!-- hier wird der Inhalt der Datenbank angezeigt -->
-        <ul>
-            <% data.forEach(item => { %>
-                <li><%= item.name %> </li>
-            <% }); %>
-
-    </body>
+        <section hidden id="update-row">
+            <label>Name:</label>
+            <input type="text" id="update-name-input">
+            <button id="update-row-btn">Update</button>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
 </html>
