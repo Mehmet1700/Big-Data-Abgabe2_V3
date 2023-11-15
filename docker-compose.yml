@@ -11,14 +11,9 @@ services:
       - mysql_server
   
   mysql_server:
-    image: mysql:8.0
-    environment: 
-      - MYSQL_DATABASE=meineDatenbank
-      - MYSQL_USER=wi22254
-      - MYSQL_PASSWORD=passwort
-      - MYSQL_ROOT_PASSWORD=admin
+    build: 
+      context: .
+      dockerfile: Dockerfile.mysql
     ports:
       - 3306:3306
-    volumes:
-      - /var/lib/wi22254
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+

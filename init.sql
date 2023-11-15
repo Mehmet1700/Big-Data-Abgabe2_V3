@@ -7,8 +7,7 @@ CREATE TABLE names (
 
 
 INSERT INTO names (name) VALUES
-    ->     ('Alice Johnson'),
-    ->     ('Bob Smith'),
-    ->     ('Eva Martinez'),
-    ->     ('Michael Davis');
-    
+    ('Alice Johnson'),
+    ('Bob Smith'),
+    ('Eva Martinez'),
+    ('Michael Davis');
