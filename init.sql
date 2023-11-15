@@ -10,4 +10,4 @@ INSERT INTO names (name) VALUES
     ('Alice Johnson'),
     ('Bob Smith'),
     ('Eva Martinez'),
-    ('Michael Davis');
+    ('Michael Davis')
