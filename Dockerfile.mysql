@@ -9,4 +9,4 @@ EXPOSE 3306
 
 VOLUME [ "/var/lib/wi22254" ]
 
-Copy ./init.sql /docker-entrypoint-initdb.d/init.sql
+COPY ./init.sql /docker-entrypoint-initdb.d/init.sql
