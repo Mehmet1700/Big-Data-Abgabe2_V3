@@ -7,7 +7,7 @@ CREATE TABLE names (
 
 
 INSERT INTO names (name) VALUES
-    ('Alice Johnson'),
-    ('Bob Smith'),
-    ('Eva Martinez'),
-    ('Michael Davis')
+    ('Angela Merkel'),
+    ('Olaf Scholz'),
+    ('Christian Lindner'),
+    ('Robert Habeck')

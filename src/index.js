@@ -4,7 +4,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const mysqlConfig = {
-  //Muss zu mysql_server angepasst werden beim dockerizen
   host: "mysql_server",
   user: "wi22254",
   password: "passwort",
@@ -17,12 +16,10 @@ const mysqlConfig = {
 //Variable mit datatype boolean false, welche den Verbindungsstatus zum mysql Server angibt
 let connected = false;
 
-//let con = null
-
 const app = express()
 const port = 3000
 
-//Middleware to parse JSON in the body of a request
+//Middleware zum parsen von JSON in der Anfrage
 app.use(express.json());
 
 
@@ -37,7 +34,7 @@ function delayConnection() {
     connected = true;
     console.log("Connected to MySQL server");
     connection.release();  
-    //abort the function delayConnection
+    //Verbindung schließen
     return;
   });
   //Wenn keine Verbindung besteht wird die Funktion nach einer Sekunde erneut aufgerufen
@@ -48,29 +45,6 @@ function delayConnection() {
 
 //Ausführen der Funktion delayConnection
 delayConnection();
-
-/*
-// Funktion welche die Daten aus dem Formular entgegen nimmt und in die Datenbank schreibt
-app.post('/submit', (req, res) => {
-  const { name } = req.body;
-  const pool = mysql.createPool(mysqlConfig);
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error inserting into the database:', err);
-      return;
-    }
-    pool.query('INSERT INTO meineDatenbank.names (name) VALUES (?)', [name], (err, result) => {
-      if (err) {
-        console.error('Error inserting into the database:', err);
-        return;
-      }
-      res.send('Inserted into the database');
-      console.log('Inserted into the database');
-      connection.release();
-    });
-  });
-});
-*/
 
 
 app.get('/', (req, res) => {
@@ -92,7 +66,7 @@ app.get('/getAll', (req, res) => {
       console.error('Error fetching data from MySQL:', err);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-    //Ausgabe der Daten
+    //Ausgabe der Daten zum testen
     //console.log(results);
     res.json({data : results});
   });
@@ -101,7 +75,7 @@ app.get('/getAll', (req, res) => {
 });
 
 
-// create a database entry
+// Datenbank Eintrag erstellen.
 app.post('/insert', (request, response) => {
   //testen von /insert
   console.log('insert function called');
@@ -127,8 +101,6 @@ app.post('/insert', (request, response) => {
   });
 
 });
-
-
 
 
 app.listen(port, () => {
