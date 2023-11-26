@@ -1,5 +1,9 @@
 # Big-Data-Abgabe2_V3
 
+Es wurde ein Github-Repository erstellt für die VCS.
+Die Repository ist über den folgenden Link erreichbar:
+https://github.com/Mehmet1700/Big-Data-Abgabe2_V3
+
 Zum Starten des Docker-Projektes muss folgender Befehl in der Konsole ausgeführt werden:
 Docker-Compose up
 
@@ -13,8 +17,6 @@ Die Datenbank wird als Tabelle angezeigt.
 
 curl http://localhost:3000 und curl http://localhost:3306 sind aufrufbar.
 Allerdings kann auch die Website über den Browser aufgerufen werden, um die Funktionalität zu testen.
-
-
 
 ## Teil 1 – Bereitstellen einer Datenbank als Docker
 
